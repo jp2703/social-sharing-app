@@ -1,4 +1,4 @@
-package de.jeropeter.socialsharingappserver.api.dto;
+package de.jeropeter.socialsharingappserver.api.request.dto.user;
 
 import de.jeropeter.socialsharingappserver.api.validation.annotations.UsernameUnique;
 import javax.validation.constraints.NotNull;

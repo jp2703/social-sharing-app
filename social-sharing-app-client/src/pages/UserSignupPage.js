@@ -1,5 +1,6 @@
 import React from 'react';
 import Input from "../components/Input";
+import ButtonWithProgress from "../components/ButtonWithProgress";
 
 class UserSignupPage extends React.Component {
   state = {
@@ -66,7 +67,9 @@ class UserSignupPage extends React.Component {
     this.setState({pendingApiCall: true});
     this.props.actions.postSignUp(user)
     .then(response => {
-      this.setState({pendingApiCall: false});
+      this.setState({pendingApiCall: false}, ()=>{
+        this.props.history.push("/");
+      });
     })
     .catch(error => {
       let errors = {...this.state.errors};
@@ -126,16 +129,14 @@ class UserSignupPage extends React.Component {
             />
           </div>
           <div className={"text-center"}>
-            <button disabled={this.state.pendingApiCall
-            || !this.state.passwordRepeatConfirmed}
-                    className={"btn btn-primary"} onClick={this.onClickSignUp}>
-              {this.state.pendingApiCall &&
-              <div
-                  className="spinner-border text-light spinner-border-sm mr-2"
-                  role="status"></div>
-              }
-              <span>Sign Up</span>
-            </button>
+            <ButtonWithProgress
+                disabled={this.state.pendingApiCall
+                || !this.state.passwordRepeatConfirmed}
+                className={"btn btn-primary"}
+                onClick={this.onClickSignUp}
+                displayText={"Sign Up"}
+                showProgress={this.state.pendingApiCall}
+            />
           </div>
         </div>
     );

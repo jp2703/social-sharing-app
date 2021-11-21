@@ -1,19 +1,20 @@
 package de.jeropeter.socialsharingappserver.service;
 
-import de.jeropeter.socialsharingappserver.api.dto.CreateUserDto;
+import de.jeropeter.socialsharingappserver.api.request.dto.user.CreateUserDto;
 import de.jeropeter.socialsharingappserver.data.model.User;
 import de.jeropeter.socialsharingappserver.data.repository.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
   private final UserRepository userRepository;
-  private final BCryptPasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder;
 
-  public UserService(UserRepository userRepository) {
+  public UserService(UserRepository userRepository,
+      PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
-    this.passwordEncoder = new BCryptPasswordEncoder();
+    this.passwordEncoder = passwordEncoder;
   }
 
   public User saveUser(CreateUserDto userDto){

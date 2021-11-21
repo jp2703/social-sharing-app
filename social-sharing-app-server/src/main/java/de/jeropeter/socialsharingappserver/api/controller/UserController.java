@@ -1,9 +1,8 @@
 package de.jeropeter.socialsharingappserver.api.controller;
 
-import de.jeropeter.socialsharingappserver.api.dto.CreateUserDto;
+import de.jeropeter.socialsharingappserver.api.request.dto.user.CreateUserDto;
 import de.jeropeter.socialsharingappserver.api.error.ApiError;
 import de.jeropeter.socialsharingappserver.api.response.GenericResponse;
-import de.jeropeter.socialsharingappserver.data.model.User;
 import de.jeropeter.socialsharingappserver.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
