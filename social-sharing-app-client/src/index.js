@@ -4,11 +4,25 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import {HashRouter} from "react-router-dom";
 import App from "./containers/App";
+import {Provider} from "react-redux";
+import configureStore from "./config/configureStore";
+
+const loggedInState = {
+  id: 1,
+  username: 'user1',
+  displayName: 'displayName1',
+  image: 'image1.jpg',
+  password: 'password123',
+  isLoggedIn: true
+};
+const store = configureStore();
 
 ReactDOM.render(
-    <HashRouter>
-      <App/>
-    </HashRouter>,
+    <Provider store={store}>
+      <HashRouter>
+        <App/>
+      </HashRouter>
+    </Provider>,
   document.getElementById('root')
 );
 

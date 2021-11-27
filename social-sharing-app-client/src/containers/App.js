@@ -1,15 +1,10 @@
-import {HomePage} from "../pages/HomePage";
-import {UserPage} from "../pages/UserPage";
-import {LoginPage} from "../pages/LoginPage";
-import {Route, Switch} from "react-router-dom";
+import HomePage from "../pages/HomePage";
+import UserPage from "../pages/UserPage";
+import LoginPage from "../pages/LoginPage";
 import UserSignupPage from "../pages/UserSignupPage";
-import * as apiCalls from "../api/apiCalls";
 import TopBar from "../components/TopBar";
-
-const actions = {
-  postSignUp: apiCalls.signUp,
-  postLogin: apiCalls.login
-}
+import React from "react";
+import {Route, Switch} from "react-router-dom";
 
 function App() {
   return (
@@ -17,9 +12,9 @@ function App() {
         <TopBar/>
         <Switch>
           <Route exact path="/" component={HomePage}/>
-          <Route exact path="/login" component={(props) => <LoginPage {...props} actions={actions}/>}/>
-          <Route exact path="/signup" component={(props) => <UserSignupPage {...props} actions={actions}/>}/>
-          <Route exact path="users/:username" component={() => <UserPage/>}/>
+          <Route exact path="/login" component={LoginPage}/>
+          <Route exact path="/signup" component={UserSignupPage}/>
+          <Route exact path="users/:username" component={UserPage}/>
         </Switch>
       </div>
   );
