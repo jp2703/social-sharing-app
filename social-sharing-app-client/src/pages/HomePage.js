@@ -1,4 +1,5 @@
 import React from 'react';
+import UserList from "../components/UserList";
 
 export class HomePage extends React.Component {
   state = {
@@ -8,7 +9,7 @@ export class HomePage extends React.Component {
   render() {
     return (
         <div>
-          Home
+          <UserList/>
         </div>
     );
   }
