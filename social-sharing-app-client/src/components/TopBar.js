@@ -36,7 +36,7 @@ export class TopBar extends React.Component {
             </li>
             <li className={"nav-item"}>
               <Link className="nav-link active"
-                    to={`/${this.props.user.username}`}>
+                    to={`/users/${this.props.user.username}`}>
                 My Profile
               </Link>
             </li>

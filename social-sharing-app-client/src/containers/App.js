@@ -5,6 +5,7 @@ import UserSignupPage from "../pages/UserSignupPage";
 import TopBar from "../components/TopBar";
 import React from "react";
 import {Route, Switch} from "react-router-dom";
+import '@fortawesome/fontawesome-free/css/all.css'
 
 function App() {
   return (

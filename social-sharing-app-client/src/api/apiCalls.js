@@ -9,6 +9,11 @@ export const listUsers = (param = {page: 0, size: 3}) => {
   return axios.get(path);
 }
 
+export const getUser = (username) => {
+  const path = `/api/users/${username}`;
+  return axios.get(path);
+}
+
 export const login = (user) => {
   return axios.post("/api/login", {}, {auth: user});
 }

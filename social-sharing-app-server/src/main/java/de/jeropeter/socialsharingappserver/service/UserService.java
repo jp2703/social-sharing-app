@@ -1,5 +1,6 @@
 package de.jeropeter.socialsharingappserver.service;
 
+import de.jeropeter.socialsharingappserver.api.error.exception.NotFoundException;
 import de.jeropeter.socialsharingappserver.api.request.dto.user.CreateUserDto;
 import de.jeropeter.socialsharingappserver.api.response.dto.GetUserDto;
 import de.jeropeter.socialsharingappserver.data.model.User;
@@ -51,5 +52,13 @@ public class UserService {
     }
     var userDtos = users.map(user -> createGetUserDto(user));
     return userDtos;
+  }
+
+  public GetUserDto getUser(String username) {
+    var user = userRepository.findByUsername(username);
+    if (user == null) {
+      throw new NotFoundException("User with name " + username + " not found");
+    }
+    return createGetUserDto(user);
   }
 }

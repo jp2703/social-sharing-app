@@ -4,6 +4,7 @@ import de.jeropeter.socialsharingappserver.api.request.annotations.CurrentUser;
 import de.jeropeter.socialsharingappserver.api.request.dto.user.CreateUserDto;
 import de.jeropeter.socialsharingappserver.api.error.ApiError;
 import de.jeropeter.socialsharingappserver.api.response.GenericResponse;
+import de.jeropeter.socialsharingappserver.api.response.dto.GetUserDto;
 import de.jeropeter.socialsharingappserver.data.model.User;
 import de.jeropeter.socialsharingappserver.service.UserService;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +45,12 @@ public class UserController {
   public ResponseEntity getUsers(@CurrentUser User loggedInUser, Pageable pageable) {
     var users = userService.getUsers(loggedInUser, pageable);
     return ResponseEntity.ok(users);
+  }
+
+  @GetMapping("/{username}")
+  public ResponseEntity getUser(@PathVariable String username) {
+    var user = userService.getUser(username);
+    return ResponseEntity.ok(user);
   }
 
   @ExceptionHandler({MethodArgumentNotValidException.class})
