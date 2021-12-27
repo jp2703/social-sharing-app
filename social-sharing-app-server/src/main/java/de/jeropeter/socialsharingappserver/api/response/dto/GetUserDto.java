@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class GetUserDto {
+  private long id;
+
   private String username;
 
   private String displayName;
@@ -24,6 +26,11 @@ public class GetUserDto {
 
   public GetUserDto withImage(String image){
     setImage(image);
+    return this;
+  }
+
+  public GetUserDto withId(long id){
+    setId(id);
     return this;
   }
 }

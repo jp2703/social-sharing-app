@@ -4,6 +4,10 @@ export const signUp = (user) => {
   return axios.post("/api/users", user);
 }
 
+export const updateUser = (userId, body) => {
+  return axios.put("/api/users/" + userId, body);
+}
+
 export const listUsers = (param = {page: 0, size: 3}) => {
   const path = `/api/users?page=${param.page || 0}&size=${param.size || 3}`;
   return axios.get(path);

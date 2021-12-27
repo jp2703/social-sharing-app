@@ -1,5 +1,6 @@
 import React from 'react';
 import UserList from "../components/UserList";
+import {connect} from "react-redux";
 
 export class HomePage extends React.Component {
   state = {
@@ -7,13 +8,26 @@ export class HomePage extends React.Component {
   }
 
   render() {
-    return (
-        <div>
-          <UserList/>
-        </div>
-    );
+    if(this.props.user.isLoggedIn){
+      return (
+          <div>
+            <UserList/>
+          </div>
+      );
+    } else {
+      return (
+          <div>
+          </div>
+      );
+    }
   }
 
 }
 
-export default HomePage;
+const mapStateToProps = (state) => {
+  return {
+    user: state
+  }
+}
+
+export default connect(mapStateToProps)(HomePage);

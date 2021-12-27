@@ -2,6 +2,7 @@ package de.jeropeter.socialsharingappserver.service;
 
 import de.jeropeter.socialsharingappserver.api.error.exception.NotFoundException;
 import de.jeropeter.socialsharingappserver.api.request.dto.user.CreateUserDto;
+import de.jeropeter.socialsharingappserver.api.request.dto.user.UpdateUserDto;
 import de.jeropeter.socialsharingappserver.api.response.dto.GetUserDto;
 import de.jeropeter.socialsharingappserver.data.model.User;
 import de.jeropeter.socialsharingappserver.data.repository.UserRepository;
@@ -28,6 +29,12 @@ public class UserService {
     return savedUser;
   }
 
+  public User updateUser(UpdateUserDto userUpdateDto, long id) {
+    var user = userRepository.getById(id);
+    user.setDisplayName(userUpdateDto.getDisplayName());
+    return userRepository.save(user);
+  }
+
   public User createUserFromCreateUserDto(CreateUserDto userDto) {
     User user = new User();
     user.setUsername(userDto.getUsername());
@@ -40,7 +47,8 @@ public class UserService {
     return new GetUserDto()
         .withUsername(user.getUsername())
         .withDisplayName(user.getDisplayName())
-        .withImage(user.getImage());
+        .withImage(user.getImage())
+        .withId(user.getId());
   }
 
   public Page<GetUserDto> getUsers(User loggedInUser, Pageable pageable) {

@@ -3,6 +3,7 @@ package de.jeropeter.socialsharingappserver.api.controller;
 import de.jeropeter.socialsharingappserver.api.request.annotations.CurrentUser;
 import de.jeropeter.socialsharingappserver.api.request.dto.user.CreateUserDto;
 import de.jeropeter.socialsharingappserver.api.error.ApiError;
+import de.jeropeter.socialsharingappserver.api.request.dto.user.UpdateUserDto;
 import de.jeropeter.socialsharingappserver.api.response.GenericResponse;
 import de.jeropeter.socialsharingappserver.api.response.dto.GetUserDto;
 import de.jeropeter.socialsharingappserver.data.model.User;
@@ -12,12 +13,14 @@ import javax.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -38,6 +41,15 @@ public class UserController {
     userService.saveUser(user);
     var response = GenericResponse.create()
         .withMessage("Created user: " + user.getUsername());
+    return ResponseEntity.ok(response);
+  }
+
+  @PutMapping("/{id:[0-9]+}")
+  @PreAuthorize("#id==principal.id")
+  public ResponseEntity updateUser(@Valid @RequestBody UpdateUserDto user, @PathVariable long id) {
+    var updatedUser = userService.updateUser(user, id);
+    var response = GenericResponse.create()
+        .withMessage("Updated user: " + updatedUser.getUsername());
     return ResponseEntity.ok(response);
   }
 
