@@ -10,8 +10,9 @@ export class UserPage extends React.Component {
     userNotFound: false,
     isLoadingUser: false,
     isUpdatingUser: false,
-    inEditMode:false,
-    updatedDisplayName:undefined
+    inEditMode: false,
+    updatedDisplayName: undefined,
+    image: undefined
   }
 
   componentDidMount() {
@@ -36,43 +37,49 @@ export class UserPage extends React.Component {
     });
   }
 
-  onClickEdit = () =>{
+  onClickEdit = () => {
     this.setState({
-      inEditMode:true
+      inEditMode: true
     })
   }
 
-  onClickCancel = () =>{
+  onClickCancel = () => {
     this.setState({
-      inEditMode:false,
-      updatedDisplayName:undefined
+      inEditMode: false,
+      updatedDisplayName: undefined,
+      image: undefined
     })
   }
 
-  onUpdateDisplayName = (event) =>{
+  onUpdateDisplayName = (event) => {
     this.setState({
-      updatedDisplayName:event.target.value
+      updatedDisplayName: event.target.value
     })
   }
 
-  onClickSave = (id, body) =>{
+  onClickSave = (id, body) => {
     this.setState({
       isUpdatingUser: true
     });
     apiCalls.updateUser(id, body)
-    .then(response=>{
+    .then(response => {
+      const user = {...this.state.user}
+      user.image = response.data.image;
       this.setState({
-        inEditMode:false,
+        user,
+        inEditMode: false,
         isUpdatingUser: false,
-        updatedDisplayName:undefined
+        updatedDisplayName: undefined,
+        image: undefined
       });
       this.loadUser();
     })
-    .catch(error=>{
+    .catch(error => {
       this.setState({
-        inEditMode:false,
+        inEditMode: false,
         isUpdatingUser: false,
-        updatedDisplayName:undefined
+        updatedDisplayName: undefined,
+        image: undefined
       });
     });
   }
@@ -84,12 +91,27 @@ export class UserPage extends React.Component {
     }
   }
 
+  onFileSelect = (event) => {
+    if (event.target.files.length === 0) {
+      return;
+    }
+    const file = event.target.files[0];
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      this.setState({
+        image: reader.result
+      });
+    }
+    reader.readAsDataURL(file);
+  }
+
   render() {
     if (this.state.isLoadingUser) {
       return (
           <div>
-            <div className="spinner-border spinner-border mr-2 d-flex m-auto mt-5"
-                 role="status"/>
+            <div
+                className="spinner-border spinner-border mr-2 d-flex m-auto mt-5"
+                role="status"/>
           </div>
       );
     }
@@ -110,9 +132,9 @@ export class UserPage extends React.Component {
           {this.state.user &&
           <ProfileCard
               width={"500px"}
-              height={"550px"}
+              height={"600px"}
               user={this.state.user}
-              editable={this.props.user.username===this.state.user.username}
+              editable={this.props.user.username === this.state.user.username}
               inEditMode={this.state.inEditMode}
               onClickEdit={this.onClickEdit}
               onClickCancel={this.onClickCancel}
@@ -120,6 +142,8 @@ export class UserPage extends React.Component {
               onUpdateDisplayName={this.onUpdateDisplayName}
               updatedDisplayName={this.state.updatedDisplayName}
               isUpdatingUser={this.state.isUpdatingUser}
+              loadedImage={this.state.image}
+              onFileSelect={this.onFileSelect}
           />
           }
         </div>

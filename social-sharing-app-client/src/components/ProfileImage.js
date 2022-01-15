@@ -6,12 +6,13 @@ const ProfileImage = (props) => {
   if (props.image) {
     imageSource = `/images/profile/${props.image}`
   }
+  console.log(imageSource)
   return (
       <img
           onError={event => {
             event.target.src = defaultProfilePic;
           }}
-          src={props.src || imageSource}
+          src={props.source || imageSource}
           {...props}
       />
   );

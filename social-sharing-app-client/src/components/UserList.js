@@ -43,8 +43,8 @@ class UserList extends React.Component {
 
   render() {
     return (
-        <div className={"card"}>
-          <h3 className={"card-title m-auto"}>Users</h3>
+        <div className={"card bg-secondary text-light p-2 border border-light m-5"}>
+          <h3 className={"m-auto"}>Users</h3>
           <div className={"list-group list-group-flush"}>
             {
               this.state.page.content.map((user) => {
@@ -60,14 +60,14 @@ class UserList extends React.Component {
             {!this.state.page.first && (
                 <button onClick={this.onClickPrevious}
                         style={{cursor: 'pointer'}}
-                        className={"btn btn-light m-1 float-right"}>
+                        className={"btn btn-light m-2 float-right rounded"}>
                   {`< previous`}
                 </button>
             )
             }
             {!this.state.page.last && (
                 <button onClick={this.onClickNext} style={{cursor: 'pointer'}}
-                        className={"btn btn-light m-1 float-right"}>
+                        className={"btn btn-light m-2 float-right rounded"}>
                   next >
                 </button>
             )

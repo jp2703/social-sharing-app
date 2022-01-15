@@ -13,7 +13,6 @@ export class TopBar extends React.Component {
   }
 
   render() {
-
     let links = (
         <ul className={"nav navbar-nav ml-auto"}>
           <li className={"nav-item "}>
@@ -46,7 +45,7 @@ export class TopBar extends React.Component {
 
     return (
         <div className={"container"}>
-          <nav className="navbar navbar-expand navbar-light bg-light">
+          <nav className="navbar navbar-expand navbar-dark p-2 m-2 rounded border border-light" style={{backgroundColor: "#6c757d"}}>
             <Link className="navbar-brand" to="/">Social Sharing</Link>
             {links}
           </nav>

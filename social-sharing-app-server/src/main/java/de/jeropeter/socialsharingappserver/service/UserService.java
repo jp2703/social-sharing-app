@@ -6,6 +6,8 @@ import de.jeropeter.socialsharingappserver.api.request.dto.user.UpdateUserDto;
 import de.jeropeter.socialsharingappserver.api.response.dto.GetUserDto;
 import de.jeropeter.socialsharingappserver.data.model.User;
 import de.jeropeter.socialsharingappserver.data.repository.UserRepository;
+import java.io.IOException;
+import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,11 +18,13 @@ public class UserService {
 
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
+  private final FileService fileService;
 
   public UserService(UserRepository userRepository,
-      PasswordEncoder passwordEncoder) {
+      PasswordEncoder passwordEncoder, FileService fileService) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
+    this.fileService = fileService;
   }
 
   public User saveUser(CreateUserDto userDto) {
@@ -32,6 +36,15 @@ public class UserService {
   public User updateUser(UpdateUserDto userUpdateDto, long id) {
     var user = userRepository.getById(id);
     user.setDisplayName(userUpdateDto.getDisplayName());
+    if (userUpdateDto.getImage() != null) {
+      String savedImageName = null;
+      try {
+        savedImageName = fileService.saveProfileImage(userUpdateDto.getImage());
+        user.setImage(savedImageName);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
     return userRepository.save(user);
   }
 
